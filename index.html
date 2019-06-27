@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<style>
+#container {
+    display: flex;
+    justify-content: space-between;
+    margin: 200px auto;
+    width: 800px;
+}
+
+#container ul {
+    width: 300px;
+}
+
+ul li {
+    height: 20px;
+    margin-bottom: 4px;
+
+}
+</style>
+<body>
+    <div>
+        <button onclick="insertOneByOne_1()">逐个重排</button>
+        <button onclick="insertAll_1()">整体重排</button>
+        <button onclick="insertOneByOne_2()">逐个重排2</button>
+    </div>
+    <div id="container">
+        <ul class="left-list"></ul>
+        <ul class="right-list"></ul>
+    </div>
+   
+<script>
+    const count = 1000;
+    
+    function insertOneByOne_1() {
+        console.time('one by one')
+        for(let i = 0; i < count; i++) {
+            const li = document.createElement('li')
+            li.append(`这是第${i}个元素`);
+            li.setAttribute('class', `left-list-item-${i}`);
+            document.getElementsByClassName('left-list')[0].append(li);
+            document.getElementsByClassName(`left-list-item-${i}`)[0].style.height='30px';
+        }
+        console.timeEnd('one by one');
+    }
+    function insertAll_1() {
+        console.time('insert all');
+        let frag = document.createDocumentFragment();
+        for(let i = 0; i < count; i++) {
+            const li = document.createElement('li')
+            li.append(`这是第${i}个元素`);
+            li.setAttribute('class', `right-list-item-${i}`);
+            frag.append(li);
+        }
+        document.getElementsByClassName('right-list')[0].append(frag);
+        console.timeEnd('insert all')
+    }
+
+    function insertOneByOne_2() {
+        document.getElementsByClassName('left-list')[0].style.display = 'none';
+        document.getElementsByClassName('left-list')[0].innerHTML = '';
+        console.time('one by one display = none');
+        for(let i = 0; i < count; i++) {
+            const li = document.createElement('li')
+            li.append(`这是第${i}个元素`);
+            li.setAttribute('class', `left-list-item-${i}`);
+            document.getElementsByClassName('left-list')[0].append(li);
+            document.getElementsByClassName(`left-list-item-${i}`)[0].style.height='30px';
+        }
+        document.getElementsByClassName('left-list')[0].style.display = 'block';
+        console.timeEnd('one by one display = none');
+    }
+    
+</script>
+</body>
+</html
